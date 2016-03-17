@@ -1,0 +1,5 @@
+AllCops:
+  Includes:
+    - Rakefile
+Documentation:
+  Enabled: false
