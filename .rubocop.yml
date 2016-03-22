@@ -3,3 +3,7 @@ AllCops:
     - Rakefile
 Documentation:
   Enabled: false
+
+Style/FileName:
+  Exclude:
+    - 'lib/omniauth-riskalyze.rb'
