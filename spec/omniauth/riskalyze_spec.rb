@@ -31,6 +31,7 @@ describe OmniAuth::Strategies::Riskalyze do
     let(:session_middleware) do
       Class.new do
         def initialize(app) = @app = app
+
         def call(env)
           env['rack.session'] ||= {}
           @app.call(env)
