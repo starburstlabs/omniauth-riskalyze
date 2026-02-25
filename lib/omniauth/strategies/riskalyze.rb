@@ -9,14 +9,12 @@ module OmniAuth
                               authorize_url: 'https://pro.riskalyze.com/oauthconnect',
                               token_url:     'https://api2.riskalyze.com/ap/v1/oauthpro/token'
 
-      def request_phase
-        options[:authorize_params] = {
-          client_id:     options['client_id'],
-          response_type: 'code',
-          scopes:        (options['scope'] || DEFAULT_SCOPE)
-        }
-
-        super
+      def authorize_params
+        super.tap do |params|
+          params[:client_id] = options.client_id
+          params[:response_type] = 'code'
+          params[:scopes] = options.scope || DEFAULT_SCOPE
+        end
       end
     end
   end

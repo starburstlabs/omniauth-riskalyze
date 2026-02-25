@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['starburst@mattgillooly.com']
 
   spec.summary       = 'Riskalyze strategy for OmniAuth'
-  spec.description   = 'Riskalyze strategy for OmniAuth v1.2'
+  spec.description   = 'Riskalyze strategy for OmniAuth'
   spec.homepage      = 'https://github.com/starburst/omniauth-riskalyze'
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
@@ -28,11 +28,11 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'omniauth', '~> 1.2'
-  spec.add_runtime_dependency 'omniauth-oauth2', '~> 1.1'
+  spec.add_runtime_dependency 'omniauth', '~> 2.0'
+  spec.add_runtime_dependency 'omniauth-oauth2', '~> 1.8'
 
-  spec.add_development_dependency 'bundler', '~> 1.10'
-  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'bundler', '~> 2.0'
+  spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'dotenv', '~> 0'
   spec.add_development_dependency 'sinatra', '~> 0'
 end
