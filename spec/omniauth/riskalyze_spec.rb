@@ -50,8 +50,10 @@ describe OmniAuth::Strategies::Riskalyze do
       end
     end
 
+    let(:original_validation_phase) { OmniAuth.config.request_validation_phase }
+
     before { OmniAuth.config.request_validation_phase = nil }
-    after  { OmniAuth.config.request_validation_phase = OmniAuth::AuthenticityTokenProtection }
+    after  { OmniAuth.config.request_validation_phase = original_validation_phase }
 
     it 'includes the default scope in the authorize redirect' do
       post '/auth/riskalyze'
