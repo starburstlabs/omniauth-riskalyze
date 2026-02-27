@@ -1,9 +1,21 @@
 AllCops:
-  Includes:
-    - Rakefile
-Documentation:
+  NewCops: enable
+  SuggestExtensions: false
+
+Style/Documentation:
   Enabled: false
 
-Style/FileName:
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/ExpandPathArguments:
+  Exclude:
+    - 'spec/spec_helper.rb'
+
+Naming/FileName:
   Exclude:
     - 'lib/omniauth-riskalyze.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
