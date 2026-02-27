@@ -4,7 +4,7 @@ module OmniAuth
   module Strategies
     class Riskalyze < OmniAuth::Strategies::OAuth2
       # NOTE: Riskalyze uses `scopes` (plural), not the standard OAuth2 `scope` param.
-      DEFAULT_SCOPE = 'com.riskalyze.client.read'
+      DEFAULT_SCOPE = 'com.riskalyze.client.read'.freeze
 
       option :client_options, site: 'https://api2.riskalyze.com/',
                               authorize_url: 'https://pro.riskalyze.com/oauthconnect',
