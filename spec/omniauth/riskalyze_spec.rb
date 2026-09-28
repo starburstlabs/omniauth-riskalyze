@@ -57,5 +57,11 @@ describe OmniAuth::Strategies::Riskalyze do
       post '/auth/riskalyze'
       expect(last_response.headers['Location']).to include("scopes=#{CGI.escape(OmniAuth::Strategies::Riskalyze::DEFAULT_SCOPE)}")
     end
+
+    it 'omits request query parameters from the redirect_uri' do
+      post '/auth/riskalyze?source=example'
+      params = URI.decode_www_form(URI(last_response.headers['Location']).query).to_h
+      expect(params['redirect_uri']).to eq('http://example.org/auth/riskalyze/callback')
+    end
   end
 end

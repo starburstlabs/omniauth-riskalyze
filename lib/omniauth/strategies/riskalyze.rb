@@ -17,6 +17,11 @@ module OmniAuth
           params[:scopes] = options.scope || DEFAULT_SCOPE
         end
       end
+
+      # OmniAuth includes callback query parameters in its default redirect_uri.
+      def callback_url
+        full_host + callback_path
+      end
     end
   end
 end
