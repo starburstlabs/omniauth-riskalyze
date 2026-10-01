@@ -22,6 +22,34 @@ describe OmniAuth::Strategies::Riskalyze do
     expect(OmniAuth::Strategies::Riskalyze::DEFAULT_SCOPE).to eq('com.riskalyze.client.read')
   end
 
+  describe '#credentials' do
+    let(:app) { ->(_env) { [200, {}, ['OK']] } }
+    let(:strategy_options) { {} }
+    let(:strategy) do
+      described_class.new(app, 'test_id', 'test_secret', strategy_options).tap do |instance|
+        instance.access_token = OAuth2::AccessToken.from_hash(instance.client, token_response)
+      end
+    end
+    let(:token_response) { { 'access_token' => 'token' } }
+
+    it 'uses the scope granted in the token response' do
+      strategy_options[:scope] = 'requested.read requested.write'
+      token_response['scope'] = 'granted.read'
+
+      expect(strategy.credentials['scope']).to eq('granted.read')
+    end
+
+    it 'falls back to the configured requested scope when the token response omits scope' do
+      strategy_options[:scope] = 'requested.read requested.write'
+
+      expect(strategy.credentials['scope']).to eq('requested.read requested.write')
+    end
+
+    it 'falls back to the default requested scope when none is configured' do
+      expect(strategy.credentials['scope']).to eq(OmniAuth::Strategies::Riskalyze::DEFAULT_SCOPE)
+    end
+  end
+
   describe '#authorize_params' do
     include Rack::Test::Methods
 

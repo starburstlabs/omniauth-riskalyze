@@ -10,6 +10,10 @@ module OmniAuth
                               authorize_url: 'https://pro.riskalyze.com/oauthconnect',
                               token_url: 'https://api2.riskalyze.com/ap/v1/oauthpro/token'
 
+      credentials do
+        { 'scope' => access_token['scope'] || options.scope || DEFAULT_SCOPE }
+      end
+
       def authorize_params
         super.tap do |params|
           # NOTE: Riskalyze uses `scopes` (plural) - omniauth-oauth2 handles
