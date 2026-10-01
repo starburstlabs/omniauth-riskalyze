@@ -11,7 +11,7 @@ module OmniAuth
                               token_url: 'https://api2.riskalyze.com/ap/v1/oauthpro/token'
 
       credentials do
-        { 'scope' => access_token['scope'] || options.scope || DEFAULT_SCOPE }
+        { 'scope' => access_token['scope'] }.compact
       end
 
       def authorize_params

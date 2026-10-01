@@ -39,14 +39,14 @@ describe OmniAuth::Strategies::Riskalyze do
       expect(strategy.credentials['scope']).to eq('granted.read')
     end
 
-    it 'falls back to the configured requested scope when the token response omits scope' do
+    it 'omits scope when the token response omits it, even when a scope is configured' do
       strategy_options[:scope] = 'requested.read requested.write'
 
-      expect(strategy.credentials['scope']).to eq('requested.read requested.write')
+      expect(strategy.credentials).not_to have_key('scope')
     end
 
-    it 'falls back to the default requested scope when none is configured' do
-      expect(strategy.credentials['scope']).to eq(OmniAuth::Strategies::Riskalyze::DEFAULT_SCOPE)
+    it 'omits scope when the token response and configuration omit it' do
+      expect(strategy.credentials).not_to have_key('scope')
     end
   end
 
