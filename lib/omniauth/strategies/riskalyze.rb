@@ -11,8 +11,12 @@ module OmniAuth
                               token_url: 'https://api2.riskalyze.com/ap/v1/oauthpro/token'
 
       credentials do
-        # OmniAuth merges this with inherited token credentials; omit scope unless Riskalyze returned it.
-        { 'scope' => access_token['scope'] }.compact
+        # OmniAuth merges these with inherited token credentials; include only returned values.
+        # Riskalyze may return granted scope under its nonstandard plural key.
+        {
+          'scope' => access_token['scope'] || access_token['scopes'],
+          'token_type' => access_token['token_type']
+        }.compact
       end
 
       def authorize_params

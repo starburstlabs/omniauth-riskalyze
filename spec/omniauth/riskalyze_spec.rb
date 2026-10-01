@@ -32,11 +32,19 @@ describe OmniAuth::Strategies::Riskalyze do
     end
     let(:token_response) { { 'access_token' => 'token' } }
 
-    it 'uses the scope granted in the token response' do
+    it 'uses the scope and token type returned in the token response' do
       strategy_options[:scope] = 'requested.read requested.write'
       token_response['scope'] = 'granted.read'
+      token_response['scopes'] = 'nonstandard.grant'
+      token_response['token_type'] = 'Bearer'
 
-      expect(strategy.credentials['scope']).to eq('granted.read')
+      expect(strategy.credentials).to include('scope' => 'granted.read', 'token_type' => 'Bearer')
+    end
+
+    it 'maps plural scopes from the token response to the standard scope credential' do
+      token_response['scopes'] = 'clients.readcom.riskalyze.ap.portfolios.read'
+
+      expect(strategy.credentials['scope']).to eq('clients.readcom.riskalyze.ap.portfolios.read')
     end
 
     it 'omits scope when the token response omits it, even when a scope is configured' do
@@ -47,6 +55,7 @@ describe OmniAuth::Strategies::Riskalyze do
 
     it 'omits scope when the token response and configuration omit it' do
       expect(strategy.credentials).not_to have_key('scope')
+      expect(strategy.credentials).not_to have_key('token_type')
     end
   end
 
