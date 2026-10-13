@@ -3,8 +3,9 @@ require 'omniauth-oauth2'
 module OmniAuth
   module Strategies
     class Riskalyze < OmniAuth::Strategies::OAuth2
-      # NOTE: Riskalyze uses `scopes` (plural), not the standard OAuth2 `scope` param.
       DEFAULT_SCOPE = 'com.riskalyze.client.read'.freeze
+
+      option :scope, DEFAULT_SCOPE
 
       option :client_options, site: 'https://api2.riskalyze.com/',
                               authorize_url: 'https://pro.riskalyze.com/oauthconnect',
@@ -21,9 +22,10 @@ module OmniAuth
 
       def authorize_params
         super.tap do |params|
-          # NOTE: Riskalyze uses `scopes` (plural) - omniauth-oauth2 handles
-          # client_id and response_type automatically.
-          params[:scopes] = options.scope || DEFAULT_SCOPE
+          # Nitrogen's MCP OAuth docs specify the standard `scope` request parameter:
+          # https://developers.riskalyze.com/#ac011e12-9852-47f3-b00a-a126d75df5f2
+          # Mirror it to the legacy `scopes` parameter for compatibility.
+          params[:scopes] = params[:scope]
         end
       end
 

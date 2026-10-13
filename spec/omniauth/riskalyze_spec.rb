@@ -133,9 +133,15 @@ describe OmniAuth::Strategies::Riskalyze do
       end.to_app
     end
 
-    it 'includes the default scope in the authorize redirect' do
+    it 'sends the default consent scope as both scope and scopes' do
       post '/auth/riskalyze'
-      expect(last_response.headers['Location']).to include("scopes=#{CGI.escape(OmniAuth::Strategies::Riskalyze::DEFAULT_SCOPE)}")
+      expect(last_response).to be_redirect
+      params = URI.decode_www_form(URI(last_response.headers.fetch('Location')).query).to_h
+
+      expect(params).to include(
+        'scope' => 'com.riskalyze.client.read',
+        'scopes' => 'com.riskalyze.client.read'
+      )
     end
 
     it 'omits request query parameters from the redirect_uri' do
